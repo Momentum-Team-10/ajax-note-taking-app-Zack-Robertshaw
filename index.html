@@ -4,16 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="script.js" defer></script>
-  <title>Notes</title>
+  <link
+   rel="stylesheet" 
+   href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" 
+  />
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="script.js" defer></script>
+<title>Notes</title>
 </head>
-<body>
-  <div>
-    <section id="section">
-      <ul id="notes">
 
-      </ul>
-    </section>
-  </div>
+<body class="avenir pa4">
+  <h1 class="f3 f2-m f1-l fw2 black-90 mv3">Notes!</h1>
+  <form action="" id="notes-form" class="pv4">
+    <div class="form-field">
+      <input 
+       id="note-text" 
+       class="pa3 w100 measure" 
+       type="text" 
+       placeholder="Enter note here" 
+       required 
+       />
+    </div>
+    <div class="note-field">
+      <button 
+      id="save-note" 
+      type="submit" 
+      class="mt3 f6 ph3 pv2 mb2 dib white bg-dark-blue"
+      >
+        Save Note
+      </button>
+    </div>
+  </form>
+  <section id="notes" class="pa3">
+    <ul id="notes-list" class="list p10 measure"></ul>
+  </section>
 </body>
 </html>
