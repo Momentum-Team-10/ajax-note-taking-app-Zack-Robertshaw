@@ -1,3 +1,11 @@
+// to do: get edit to add to line instead of replace
+//        Mess around with CSS stuff  
+
+// done: got delete to delete from db.json,  needed .id after parentElement on fetch line
+
+// questions: in db.json the id counter keeps going up even after deletes.  Is that a problem?
+
+
 console.log('JS hooked up')
 
 const url = 'http://localhost:3000/notes/'
@@ -17,14 +25,16 @@ form.addEventListener('submit', (e) => {
 
 notes.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete')) {
-        console.log('Note deleted!')
+        console.log('event listener Note deleted!')
         deleteNote(e.target)
     }
+    // another if statement to add and not delete entire note
     if (e.target.classList.contains('edit')) {
         console.log('editing note')
         updateNote(e.target)
     }
 })
+
 
 function renderNoteItem(noteObj) {
     // renders list item specifically
@@ -46,19 +56,16 @@ function renderNoteItem(noteObj) {
     notes.appendChild(li)
 
 }
-
+// There's a huge difference between innerHTML and innerHtml!!!
 function renderNoteText(li, noteObj) {
-    li.innerHtml = `
-    <span class="dib w-60">${noteObj.body}</span>${noteObj.updated_at ? (noteObj.updated_at).format('MMM DD,YYYY') : ""
-}<i class="ml2 dark-red fas fa-times delete" ></i > <i class="ml3 fas fa-edit edit"></i>
+    li.innerHTML = `
+    <span class="dib w-60">${noteObj.body}</span>${noteObj.updated_at ? moment(noteObj.updated_at).format('MMM DD,YYYY') : ""
+        }<i class="ml2 dark-red fas fa-times delete" ></i > <i class="ml3 fas fa-edit edit"></i>
 `
 
 }
 
-listNotes()
 
-// holds fetch request that gets notes already in database
-// console log in the 2nd response so you can see your data
 function listNotes() {
     fetch(url)
         .then(res => res.json())
@@ -71,6 +78,9 @@ function listNotes() {
         })
 }
 
+listNotes()
+
+
 function createNote(noteText) {
     fetch(url, {
         method: 'POST',
@@ -81,27 +91,32 @@ function createNote(noteText) {
             created_at: moment().format()
         })
     })
-    .then(res => res.json())
-    .then(data => renderNoteItem(data))
+        .then(res => res.json())
+        .then(data => renderNoteItem(data))
 }
 
 function deleteNote(noteEl) {
-    fetch(url + '/' + `${noteEl}`, {
-        method: 'DELETE'
+    fetch(url + '/' + `${noteEl.parentElement.id}`, {
+        method: 'DELETE',
     }).then(() => noteEl.parentElement.remove())
 }
 
+
+
+
+
+
 function updateNote(noteEl) {
     const noteText = document.getElementById('note-text').value
-    fetch(url + '/' + `${noteEl.parentElement.id} `,{
+    fetch(`${url}/${noteEl.parentElement.id} `, {
         method: 'PUT',
-        headers: { 'Content-Type' : 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             title: noteText,
             body: noteText,
             updated_at: moment().format()
+        })
     })
-})
         .then(res => res.json())
         .then(data => {
             renderNoteText(noteEl.parentElement, data)
