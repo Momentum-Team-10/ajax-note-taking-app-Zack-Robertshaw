@@ -57,6 +57,17 @@ function renderNoteItem(noteObj) {
 
 }
 // There's a huge difference between innerHTML and innerHtml!!!
+
+// function renderNoteText(li, noteObj) {
+//     li.innerHTML = `
+//     <span class="dib w-60">${noteObj.body}</span>${noteObj.updated_at ? moment(noteObj.updated_at).format('MMM DD,YYYY') : ""
+//         }<i class="ml2 dark-red fas fa-times delete" ></i > <i class="ml3 fas fa-edit edit"></i>
+// `
+
+// }
+// above function works, below is play
+
+// HTML i element is italics.  interesting use here. 
 function renderNoteText(li, noteObj) {
     li.innerHTML = `
     <span class="dib w-60">${noteObj.body}</span>${noteObj.updated_at ? moment(noteObj.updated_at).format('MMM DD,YYYY') : ""
@@ -100,10 +111,6 @@ function deleteNote(noteEl) {
         method: 'DELETE',
     }).then(() => noteEl.parentElement.remove())
 }
-
-
-
-
 
 
 function updateNote(noteEl) {
